@@ -1556,6 +1556,66 @@ header {
         <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l3-dqdv" placeholder="当前关注的峰特征、循环前后峰位移动量、归因假设..."></textarea></div>
       </div>
     </div>
+
+    <!-- 新增：化成首圈低压指纹峰 -->
+    <div class="card" id="c-dqdv-formation">
+      <div class="card-hd" onclick="tog('c-dqdv-formation')">
+        <div class="card-title"><div class="card-icon">🔬</div>化成首圈低压指纹峰解析（高镍NCM＋石墨）</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="callout blue"><span class="callout-icon">⚠️</span><div><strong>前提：</strong>以下分析仅适用于峰能<strong>重复出现、位置稳定</strong>的情况。0.02C 极低倍率下，采样不足或平滑参数不当会产生伪峰，需先排除。</div></div>
+
+        <div class="callout orange"><span class="callout-icon">🧭</span><div><strong>解读方法：</strong>全电池电压 = 正极电位 − 负极电位。化成初期正极电位变化慢，负极电位下降为主导。可用正极满锂态电位（~3.5V）粗估负极绝对电位：<br>
+          <strong>负极电位 ≈ 正极电位 − 全电池电压 ≈ 3.5V − V_cell</strong><br>
+          此换算为路标，不作定量结论，前段误差较大。
+        </div></div>
+
+        <table class="ptable">
+          <tr><th>全电池电压</th><th>粗估负极电位</th><th>最可能对应反应</th><th>可信度</th></tr>
+          <tr>
+            <td class="pname">~2.5V</td>
+            <td class="prange">~1.0V vs Li</td>
+            <td>VC、FEC 等成膜添加剂优先还原，SEI 初始生成信号。多种添加剂峰可能叠加，主溶剂低电位侧也可能贡献。</td>
+            <td><span class="tag tag-up">较高</span></td>
+          </tr>
+          <tr>
+            <td class="pname">~1.9V</td>
+            <td class="prange">~1.6V vs Li</td>
+            <td>PS、LiPO₂F₂ 等前序辅助添加剂还原。水分还原也在此窗口，但正常产线（含水量&lt;50ppm）更多表现为基线抬升而非独立峰。</td>
+            <td><span class="tag tag-org">中等</span></td>
+          </tr>
+          <tr>
+            <td class="pname">~1.37V</td>
+            <td class="prange">~2.1V vs Li</td>
+            <td>DTD 等偏高电位介入添加剂（窗口因体系而异）；铜箔表面氧化层还原；石墨表面官能团反应。难以单独判定，需控制变量。</td>
+            <td><span class="tag tag-dn">较低</span></td>
+          </tr>
+          <tr>
+            <td class="pname">~0.95V</td>
+            <td class="prange">~2.5V vs Li</td>
+            <td>已知还原反应极少。更可能是前段电压松弛、采样分辨率或平滑处理引入的伪峰。仅在多次重复稳定出现后才考虑高电位添加剂方向。</td>
+            <td><span class="tag tag-dn">极低</span></td>
+          </tr>
+        </table>
+
+        <div class="callout green"><span class="callout-icon">🔗</span><div><strong>与石墨 Staging 峰的区别：</strong>石墨经典阶化（staging）峰出现在更高全电池电压段，峰形更规则、更尖锐。此处四个低压峰位置靠前、轮廓宽钝，不是 staging 特征。<br>
+        <strong>判断方法：</strong>看第二圈——若峰基本消失 → 化成副反应；若每圈仍在、位置略漂移 → 考虑可逆嵌脱锂过程。</div></div>
+
+        <div class="method-blk">
+          <div class="method-blk-title"><span class="mabbr">验证路径</span> 控制变量实验方案</div>
+          <div class="mgrid">
+            <div class="mkey">半电池拆分</div><div class="mval">石墨‖Li、NCM‖Li 各做一套 dQ/dV，快速定位峰来自哪个电极</div>
+            <div class="mkey">添加剂变量</div><div class="mval">空白电解液 → 逐一加入 VC / FEC / PS / DTD，追踪各峰归属</div>
+            <div class="mkey">水分梯度</div><div class="mval">怀疑 1.9V 峰与水分相关 → 含水量梯度实验，观察峰面积与含水量相关性</div>
+            <div class="mkey">重复性确认</div><div class="mval">分析机理前，先确认峰在 ≥3 次重复测试中位置稳定，否则优先排查数据处理问题</div>
+          </div>
+        </div>
+
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l3-dqdv-formation" placeholder="当前体系的电解液添加剂体系、低压峰重复性、下一步验证实验计划..."></textarea></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1581,7 +1641,8 @@ header {
           </div>
         </div>
         <div class="callout blue"><span class="callout-icon">🔗</span><div>化成圈的CE数据是验证<strong>N/P比设计合理性</strong>的第一个实验节点，首效偏低需检查负极首效补偿方案。</div></div>
-        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l3-formation" placeholder="当前化成协议、首圈CE结果..."></textarea></div>
+        <div class="callout orange"><span class="callout-icon">🔬</span><div><strong>化成低压段 dQ/dV 精细分析：</strong>在 ≤0.05C 极低倍率化成时，首圈 dQ/dV 低压段（0.95~2.5V 全电池电压）会出现多个 SEI 成膜指纹峰，对应不同添加剂的还原顺序。详见 <a href="javascript:go('l3dqdv')" style="color:var(--orange);text-decoration:underline;">dQ/dV 模块 → 化成首圈低压指纹峰解析</a>。</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l3-formation" placeholder="当前化成协议、首圈CE结果、低压段峰形观察..."></textarea></div>
       </div>
     </div>
     <div class="card" id="c-plating">
