@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>电极设计·制造·评价 联动知识体系</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #f4f2ee;
+  --bg2:       #ffffff;
+  --bg3:       #ede9e2;
+  --bg4:       #e8e3da;
+  --border:    #d4cfc6;
+  --border2:   #c5bfb5;
+  --orange:    #d4660a;
+  --orange-lt: #f5e6d8;
+  --orange-md: #e8a06a;
+  --blue:      #2563a8;
+  --blue-lt:   #ddeaf8;
+  --green:     #2a7a52;
+  --green-lt:  #d8f0e6;
+  --red:       #b83232;
+  --red-lt:    #fce8e8;
+  --text:      #2a2520;
+  --text-mid:  #5a5248;
+  --text-dim:  #8c8278;
+  --text-inv:  #ffffff;
+  --serif:     'Noto Serif SC', serif;
+  --sans:      'Noto Sans SC', sans-serif;
+  --mono:      'JetBrains Mono', monospace;
+  --shadow:    0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.10), 0 8px 24px rgba(0,0,0,0.06);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ─── HEADER ─── */
+header {
+  background: var(--bg2);
+  border-bottom: 2px solid var(--orange);
+  padding: 0 40px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: var(--shadow);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  gap: 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-mark {
+  width: 32px; height: 32px;
+  background: var(--orange);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  letter-spacing: -0.03em;
+  flex-shrink: 0;
+}
+
+.logo-text h1 {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.logo-text .sub {
+  font-size: 10px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  letter-spacing: 0.05em;
+}
+
+.header-legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.legend-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  color: var(--text-mid);
+  font-family: var(--mono);
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+}
+
+.legend-dot { width:7px; height:7px; border-radius:50%; }
+
+.save-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.save-btn:hover { background: #b85608; }
+.save-btn.saved { background: var(--green); }
+
+/* ─── LAYOUT ─── */
+.app { display:flex; height:calc(100vh - 58px); }
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  width: 230px;
+  min-width: 230px;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 12px 0 24px;
+}
+
+.sidebar::-webkit-scrollbar { width: 3px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border2); border-radius:2px; }
+
+.sidebar-group {
+  padding: 14px 16px 4px;
+  font-size: 9.5px;
+  font-family: var(--mono);
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: all 0.12s;
+  border-left: 3px solid transparent;
+  font-size: 12.5px;
+  color: var(--text-mid);
+  user-select: none;
+}
+
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active {
+  background: var(--orange-lt);
+  border-left-color: var(--orange);
+  color: var(--orange);
+  font-weight: 500;
+}
+
+.nav-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+
+/* ─── MAIN ─── */
+.main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 36px 48px;
+  background: var(--bg);
+}
+
+.main::-webkit-scrollbar { width: 5px; }
+.main::-webkit-scrollbar-thumb { background: var(--border2); border-radius:3px; }
+
+/* ─── PANELS ─── */
+.panel { display:none; animation: fadeUp 0.18s ease; }
+.panel.active { display:block; }
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ─── SECTION HEADER ─── */
+.sec-hd {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sec-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  margin-top: 3px;
+}
+
+.sec-hd h2 {
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.sec-hd .desc {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+/* ─── CARDS ─── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.card-grid.full { grid-template-columns: 1fr; }
+
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.card:hover { box-shadow: var(--shadow-md); border-color: var(--border2); }
+
+.card-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px;
+  cursor: pointer;
+  user-select: none;
+  background: var(--bg2);
+  transition: background 0.12s;
+}
+
+.card-hd:hover { background: var(--bg3); }
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.card-icon {
+  font-size: 14px;
+  width: 26px; height: 26px;
+  display: flex; align-items:center; justify-content:center;
+  border-radius: 5px;
+  background: var(--bg3);
+  flex-shrink: 0;
+}
+
+.card-arrow {
+  font-size: 10px;
+  color: var(--text-dim);
+  transition: transform 0.2s;
+  font-family: var(--mono);
+}
+
+.card.open .card-arrow { transform: rotate(90deg); }
+
+.card-body {
+  display: none;
+  padding: 4px 15px 15px;
+  border-top: 1px solid var(--border);
+}
+
+.card.open .card-body { display: block; }
+
+/* ─── PARAM TABLE ─── */
+.ptable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 12px 0 4px;
+}
+
+.ptable th {
+  text-align: left;
+  padding: 5px 9px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  text-transform: uppercase;
+  background: var(--bg3);
+}
+
+.ptable td {
+  padding: 7px 9px;
+  border-bottom: 1px solid var(--bg3);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.ptable tr:last-child td { border-bottom: none; }
+.ptable tr:hover td { background: var(--bg3); }
+
+.pname { font-weight: 600; color: var(--text); }
+.prange { font-family: var(--mono); font-size: 11px; color: var(--blue); }
+.pdim { color: var(--text-mid); font-size: 12px; }
+
+/* ─── FORMULA ─── */
+.formula {
+  background: #fdf8f2;
+  border: 1px solid #e8ddd0;
+  border-left: 3px solid var(--orange);
+  border-radius: 0 5px 5px 0;
+  padding: 10px 14px;
+  margin: 12px 0;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--text);
+  line-height: 2;
+}
+
+.formula .cmt { color: var(--text-dim); font-size: 10.5px; }
+
+/* ─── CALLOUT ─── */
+.callout {
+  border-radius: 5px;
+  padding: 10px 13px;
+  margin: 10px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+}
+
+.callout-icon { font-size: 14px; flex-shrink:0; margin-top:1px; }
+
+.callout.orange { background: var(--orange-lt); border: 1px solid #e8b88a; color: #7a3a0a; }
+.callout.blue   { background: var(--blue-lt);   border: 1px solid #9bbde0; color: #1a3f6a; }
+.callout.green  { background: var(--green-lt);  border: 1px solid #8ecaaa; color: #1a5a3a; }
+.callout.red    { background: var(--red-lt);    border: 1px solid #e0a0a0; color: #6a1a1a; }
+
+/* ─── LINK ROW ─── */
+.link-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 12.5px;
+}
+
+.link-row:last-of-type { border-bottom: none; }
+
+.lk-from {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--orange);
+  background: var(--orange-lt);
+  padding: 2px 7px;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+  border: 1px solid #e8c4a0;
+}
+
+.lk-arr { color: var(--text-dim); flex-shrink:0; margin-top:3px; font-size:11px; }
+.lk-to  { color: var(--text-mid); flex:1; }
+
+/* ─── TAGS ─── */
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  margin: 1px 2px 1px 0;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+.tag-up  { background: var(--green-lt);  color: var(--green); border:1px solid #8ecaaa; }
+.tag-dn  { background: var(--red-lt);    color: var(--red);   border:1px solid #e0a0a0; }
+.tag-neu { background: var(--blue-lt);   color: var(--blue);  border:1px solid #9bbde0; }
+.tag-org { background: var(--orange-lt); color: var(--orange);border:1px solid #e8b88a; }
+
+/* ─── BIMAP ─── */
+.bimap {
+  display: grid;
+  grid-template-columns: 1fr 56px 1fr;
+  gap: 0;
+  margin: 14px 0;
+}
+
+.bimap-col {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+
+.bimap-col h4 {
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.bimap-mid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--text-dim);
+  font-size: 18px;
+}
+
+.bimap-mid span {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--orange);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.bimap-item {
+  font-size: 12px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.bimap-item:last-child { border-bottom:none; }
+
+/* ─── NOTE AREA ─── */
+.note-wrap {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border2);
+}
+
+.note-label {
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.note-input {
+  width: 100%;
+  min-height: 72px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 12.5px;
+  padding: 8px 10px;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  line-height: 1.65;
+}
+
+.note-input:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(212,102,10,0.1);
+}
+
+.note-input::placeholder { color: var(--text-dim); }
+
+.note-save-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.note-save-status {
+  font-size: 10.5px;
+  font-family: var(--mono);
+  color: var(--text-dim);
+  transition: color 0.3s;
+}
+
+.note-save-status.ok { color: var(--green); }
+
+/* ─── OVERVIEW MAP ─── */
+.ov-map {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 22px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow);
+}
+
+.ov-layer {
+  display: flex;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+
+.ov-lbl {
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  letter-spacing: 0.04em;
+}
+
+.ov-content { flex:1; padding: 11px 15px; }
+
+.ov-title {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.ov-chips { display:flex; flex-wrap:wrap; gap:5px; }
+
+.chip {
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all 0.12s;
+  font-family: var(--sans);
+}
+
+.chip:hover {
+  background: var(--orange-lt);
+  border-color: var(--orange-md);
+  color: var(--orange);
+}
+
+.ov-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 0;
+  gap: 32px;
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text-dim);
+}
+
+.ov-connector span { display:flex; align-items:center; gap:5px; }
+
+/* ─── MAPPING TABLE ─── */
+.map-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  box-shadow: var(--shadow);
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.map-table th {
+  background: var(--text);
+  color: white;
+  padding: 9px 11px;
+  text-align: left;
+  font-size: 10px;
+  font-family: var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.map-table td {
+  padding: 9px 11px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  background: var(--bg2);
+}
+
+.map-table tr:last-child td { border-bottom: none; }
+.map-table tr:hover td { background: var(--bg3); }
+
+.map-table .pname {
+  font-weight: 600;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--orange);
+}
+
+/* ─── METHOD BLOCK ─── */
+.method-blk {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin: 10px 0;
+}
+
+.method-blk-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.mabbr {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: var(--orange);
+  color: white;
+  font-weight: 600;
+}
+
+.mgrid {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 3px 10px;
+  font-size: 12px;
+}
+
+.mkey {
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding-top: 3px;
+  font-weight: 600;
+}
+
+.mval { color: var(--text); line-height: 1.55; }
+
+/* ─── EMBED NOTICE ─── */
+.embed-notice {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 22px;
+  margin-top: 24px;
+  box-shadow: var(--shadow);
+}
+
+.embed-notice h3 {
+  font-family: var(--serif);
+  font-size: 15px;
+  margin-bottom: 12px;
+  color: var(--text);
+  display: flex; align-items:center; gap:8px;
+}
+
+.embed-step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 9px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 12.5px;
+}
+
+.embed-step:last-child { border-bottom: none; }
+
+.estep-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--mono);
+  display: flex; align-items:center; justify-content:center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.code-inline {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: var(--orange);
+}
+
+/* ─── FLOW ─── */
+.flow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+
+.flow-node {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 5px 11px;
+  font-size: 12px;
+  color: var(--text);
+}
+
+.flow-arr { color: var(--text-dim); font-size: 13px; }
+
+/* ─── SEPARATOR ─── */
+.sep { height:1px; background:var(--border); margin:20px 0; }
+
+/* ─── SCROLLBAR ─── */
+* { scrollbar-width: thin; scrollbar-color: var(--border2) transparent; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-mark">EL</div>
+      <div class="logo-text">
+        <h1>电极设计 · 制造 · 评价  联动知识体系</h1>
+        <div class="sub">Lithium-Ion Battery Electrode Framework · v2.0 · 笔记自动保存</div>
+      </div>
+    </div>
+    <div class="header-legend">
+      <div class="legend-pill"><div class="legend-dot" style="background:#d4660a"></div>L0 性能目标</div>
+      <div class="legend-pill"><div class="legend-dot" style="background:#2563a8"></div>L1 电极特征</div>
+      <div class="legend-pill"><div class="legend-dot" style="background:#2a7a52"></div>L2 制造工艺</div>
+      <div class="legend-pill"><div class="legend-dot" style="background:#b83232"></div>L3 测试表征</div>
+    </div>
+    <button class="save-btn" onclick="saveAllNotes()" id="saveBtn">
+      💾 保存所有笔记
+    </button>
+  </div>
+</header>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-group">总览</div>
+  <div class="nav-item active" onclick="go('overview')">
+    <div class="nav-dot" style="background:#888"></div>体系架构总览
+  </div>
+  <div class="nav-item" onclick="go('embed')">
+    <div class="nav-dot" style="background:#888"></div>📎 嵌入飞书 / Notion
+  </div>
+
+  <div class="sidebar-group">L0 · 性能目标</div>
+  <div class="nav-item" onclick="go('l0')">
+    <div class="nav-dot" style="background:#d4660a"></div>性能目标分解
+  </div>
+
+  <div class="sidebar-group">L1 · 电极特征参数</div>
+  <div class="nav-item" onclick="go('l1micro')">
+    <div class="nav-dot" style="background:#2563a8"></div>微观结构参数
+  </div>
+  <div class="nav-item" onclick="go('l1formula')">
+    <div class="nav-dot" style="background:#2563a8"></div>配方特征参数
+  </div>
+  <div class="nav-item" onclick="go('l1dim')">
+    <div class="nav-dot" style="background:#2563a8"></div>尺寸链与公差
+  </div>
+
+  <div class="sidebar-group">L2 · 制造工艺</div>
+  <div class="nav-item" onclick="go('l2slurry')">
+    <div class="nav-dot" style="background:#2a7a52"></div>浆料制备
+  </div>
+  <div class="nav-item" onclick="go('l2coating')">
+    <div class="nav-dot" style="background:#2a7a52"></div>涂布 · 压延 · 模切
+  </div>
+  <div class="nav-item" onclick="go('l2gradient')">
+    <div class="nav-dot" style="background:#2a7a52"></div>梯度 / 多层涂布
+  </div>
+
+  <div class="sidebar-group">L3 · 测试与表征</div>
+  <div class="nav-item" onclick="go('l3basic')">
+    <div class="nav-dot" style="background:#b83232"></div>基础电化学测试
+  </div>
+  <div class="nav-item" onclick="go('l3kinetics')">
+    <div class="nav-dot" style="background:#b83232"></div>EIS · GITT 动力学
+  </div>
+  <div class="nav-item" onclick="go('l3dqdv')">
+    <div class="nav-dot" style="background:#b83232"></div>dQ/dV 增量分析
+  </div>
+  <div class="nav-item" onclick="go('l3fullcell')">
+    <div class="nav-dot" style="background:#b83232"></div>全电池专项评估
+  </div>
+  <div class="nav-item" onclick="go('l3failure')">
+    <div class="nav-dot" style="background:#b83232"></div>失效诊断体系
+  </div>
+
+  <div class="sidebar-group">联动</div>
+  <div class="nav-item" onclick="go('mapping')">
+    <div class="nav-dot" style="background:#888"></div>参数 ↔ 性能映射表
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ══ OVERVIEW ══ -->
+<div class="panel active" id="p-overview">
+  <div class="sec-hd">
+    <span class="sec-badge" style="background:#f0ebe3;color:#7a3a0a;border:1px solid #e8c4a0">OVERVIEW</span>
+    <div>
+      <h2>体系架构总览</h2>
+      <div class="desc">四层结构 · 双向映射 · 制造-性能-测试 闭环联动</div>
+    </div>
+  </div>
+
+  <div class="ov-map">
+    <div class="ov-layer">
+      <div class="ov-lbl" style="background:#fdf0e6;color:#d4660a">L0</div>
+      <div class="ov-content">
+        <div class="ov-title" style="color:#d4660a">性能目标层 — 所有设计的终点与起点</div>
+        <div class="ov-chips">
+          <div class="chip" onclick="go('l0')">能量密度</div>
+          <div class="chip" onclick="go('l0')">功率密度 / 倍率</div>
+          <div class="chip" onclick="go('l0')">循环寿命</div>
+          <div class="chip" onclick="go('l0')">安全性</div>
+          <div class="chip" onclick="go('l0')">低温性能</div>
+          <div class="chip" onclick="go('l0')">成本</div>
+        </div>
+      </div>
+    </div>
+    <div class="ov-connector">
+      <span>▼ 目标分解 → 设计窗口</span>
+      <span>↑ 测试结果反馈优化</span>
+    </div>
+    <div class="ov-layer">
+      <div class="ov-lbl" style="background:#e8f0fb;color:#2563a8">L1</div>
+      <div class="ov-content">
+        <div class="ov-title" style="color:#2563a8">电极特征参数层 — 设计与性能的中间语言</div>
+        <div class="ov-chips">
+          <div class="chip" onclick="go('l1micro')">孔隙率 ε</div>
+          <div class="chip" onclick="go('l1micro')">压实密度 ρ</div>
+          <div class="chip" onclick="go('l1micro')">曲折度 τ</div>
+          <div class="chip" onclick="go('l1micro')">膜片电阻</div>
+          <div class="chip" onclick="go('l1formula')">配方比例</div>
+          <div class="chip" onclick="go('l1dim')">涂布量 / 厚度</div>
+          <div class="chip" onclick="go('l1dim')">Over Hang</div>
+          <div class="chip" onclick="go('l1dim')">N/P 比</div>
+        </div>
+      </div>
+    </div>
+    <div class="ov-connector">
+      <span>▼ 工艺参数决定特征值</span>
+      <span>↑ 特征值反推工艺设定</span>
+    </div>
+    <div class="ov-layer">
+      <div class="ov-lbl" style="background:#e6f5ee;color:#2a7a52">L2</div>
+      <div class="ov-content">
+        <div class="ov-title" style="color:#2a7a52">制造工艺层 — 参数的实现手段</div>
+        <div class="ov-chips">
+          <div class="chip" onclick="go('l2slurry')">浆料制备</div>
+          <div class="chip" onclick="go('l2coating')">涂布均匀性</div>
+          <div class="chip" onclick="go('l2coating')">压延辊压</div>
+          <div class="chip" onclick="go('l2coating')">干燥工艺</div>
+          <div class="chip" onclick="go('l2gradient')">梯度多层涂布</div>
+          <div class="chip" onclick="go('l2coating')">模切 / 尺寸</div>
+        </div>
+      </div>
+    </div>
+    <div class="ov-connector">
+      <span>▼ 表征验证参数</span>
+      <span>↑ 诊断根因 → 改进设计</span>
+    </div>
+    <div class="ov-layer">
+      <div class="ov-lbl" style="background:#fbe8e8;color:#b83232">L3</div>
+      <div class="ov-content">
+        <div class="ov-title" style="color:#b83232">测试与表征层 — 闭环的验证与反馈节点</div>
+        <div class="ov-chips">
+          <div class="chip" onclick="go('l3basic')">GCPL 充放电</div>
+          <div class="chip" onclick="go('l3dqdv')">dQ/dV 增量分析</div>
+          <div class="chip" onclick="go('l3kinetics')">EIS 阻抗谱</div>
+          <div class="chip" onclick="go('l3kinetics')">GITT 扩散系数</div>
+          <div class="chip" onclick="go('l3basic')">倍率 / 循环</div>
+          <div class="chip" onclick="go('l3fullcell')">全电池评估</div>
+          <div class="chip" onclick="go('l3failure')">失效诊断</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout orange">
+    <span class="callout-icon">💡</span>
+    <div><strong>使用说明：</strong>左侧导航按层级切换模块；总览页蓝色标签可直接跳转；每个参数卡片底部均有📝笔记区，点击顶栏「保存所有笔记」即可持久化存储，刷新后自动恢复。</div>
+  </div>
+</div>
+
+<!-- ══ EMBED ══ -->
+<div class="panel" id="p-embed">
+  <div class="sec-hd">
+    <span class="sec-badge" style="background:#f0ebe3;color:#7a3a0a;border:1px solid #e8c4a0">EMBED</span>
+    <div>
+      <h2>嵌入飞书 / Notion</h2>
+      <div class="desc">零运维方案 · 本地 localStorage 持久保存笔记</div>
+    </div>
+  </div>
+
+  <div class="embed-notice">
+    <h3>📎 飞书文档嵌入步骤</h3>
+    <div class="embed-step">
+      <div class="estep-num">1</div>
+      <div>将本 HTML 文件上传至任意<strong>可公开访问的静态托管</strong>服务。推荐免费方案：<br>
+        · <strong>GitHub Pages</strong>：将文件推送到 GitHub 仓库，启用 Pages 即可获得公网链接<br>
+        · <strong>Cloudflare Pages</strong>：拖拽上传，5 分钟获得 HTTPS 链接<br>
+        · <strong>Vercel / Netlify</strong>：同上，免费额度完全够用
+      </div>
+    </div>
+    <div class="embed-step">
+      <div class="estep-num">2</div>
+      <div>在飞书文档中，输入 <span class="code-inline">/嵌入</span> 或 <span class="code-inline">/embed</span>，选择「网页」，粘贴你的公网 URL，调整高度为 <span class="code-inline">800px</span> 以上。</div>
+    </div>
+    <div class="embed-step">
+      <div class="estep-num">3</div>
+      <div>在 Notion 中，输入 <span class="code-inline">/embed</span>，粘贴 URL。Notion 免费版对部分来源有限制，可选用 GitHub Pages 链接（兼容性最好）。</div>
+    </div>
+    <div class="embed-step">
+      <div class="estep-num">4</div>
+      <div>
+        <strong>关于笔记保存：</strong>笔记存储在<strong>浏览器 localStorage</strong>（每台设备独立）。<br>
+        · 同一台电脑、同一浏览器访问 → 笔记自动保留 ✅<br>
+        · 换设备 → 需手动导出（点「导出笔记」按钮，复制 JSON 到新设备导入）<br>
+        · 多人共享同一知识库 → 建议升级为服务器方案（届时可协助部署）
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;display:flex;gap:12px;">
+    <button class="save-btn" onclick="exportNotes()" style="background:var(--blue)">📤 导出笔记 JSON</button>
+    <button class="save-btn" onclick="importNotes()" style="background:var(--green)">📥 导入笔记 JSON</button>
+  </div>
+  <textarea id="import-area" class="note-input" style="margin-top:12px;min-height:80px;display:none;" placeholder="粘贴笔记 JSON 后点「导入」..."></textarea>
+</div>
+
+<!-- ══ L0 ══ -->
+<div class="panel" id="p-l0">
+  <div class="sec-hd">
+    <span class="sec-badge" style="background:#fdf0e6;color:#7a3a0a;border:1px solid #e8c4a0">L0 · 性能目标</span>
+    <div><h2>性能目标层</h2><div class="desc">所有设计参数的终点与起点 · 反向驱动 L1 设计窗口</div></div>
+  </div>
+  <div class="card-grid">
+
+    <div class="card" id="c-energy">
+      <div class="card-hd" onclick="tog('c-energy')">
+        <div class="card-title"><div class="card-icon">⚡</div>能量密度</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="formula">
+          Wh/kg = Q(mAh/g) × V_avg / 1000<br>
+          Wh/L  = Q × V_avg × ρ_electrode<br>
+          <span class="cmt">// 提升路径：↑压实密度 + ↑活性物质比例 + ↑涂布量</span>
+        </div>
+        <div class="link-row"><div class="lk-from">↑压实密度</div><div class="lk-arr">→</div><div class="lk-to">体积能量密度提升，但需平衡孔隙率下降导致的倍率损失</div></div>
+        <div class="link-row"><div class="lk-from">↑涂布量</div><div class="lk-arr">→</div><div class="lk-to">面容量↑，但Li⁺扩散路径变长，厚电极需梯度孔隙率补偿</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l0-energy" placeholder="能量密度目标值、当前约束条件..."></textarea></div>
+      </div>
+    </div>
+
+    <div class="card" id="c-power">
+      <div class="card-hd" onclick="tog('c-power')">
+        <div class="card-title"><div class="card-icon">🔥</div>功率密度 / 倍率</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="callout blue"><span class="callout-icon">ℹ️</span><div>倍率性能由<strong>离子传输</strong>和<strong>电子传输</strong>共同决定，厚电极中离子传输通常是瓶颈。</div></div>
+        <div class="link-row"><div class="lk-from">孔隙率 ε</div><div class="lk-arr">→</div><div class="lk-to">D_eff = D₀·ε/τ，孔隙率越高，离子有效扩散系数越大</div></div>
+        <div class="link-row"><div class="lk-from">曲折度 τ</div><div class="lk-arr">→</div><div class="lk-to">τ↑ 则 D_eff↓，过度压延会增大曲折度</div></div>
+        <div class="link-row"><div class="lk-from">导电剂分布</div><div class="lk-arr">→</div><div class="lk-to">电子传导网络均匀性影响高倍率下的极化分布</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l0-power" placeholder="目标倍率、测试条件..."></textarea></div>
+      </div>
+    </div>
+
+    <div class="card" id="c-life">
+      <div class="card-hd" onclick="tog('c-life')">
+        <div class="card-title"><div class="card-icon">🔄</div>循环寿命</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <table class="ptable">
+          <tr><th>失效来源</th><th>关联参数</th><th>测试诊断</th></tr>
+          <tr><td class="pname">活性锂损失 (LLI)</td><td class="prange">N/P比、首效、SEI</td><td>dQ/dV峰面积追踪</td></tr>
+          <tr><td class="pname">活性材料损失 (LAM)</td><td class="prange">压实密度过高</td><td>dQ/dV峰位移动</td></tr>
+          <tr><td class="pname">阻抗增长</td><td class="prange">界面膜、接触</td><td>EIS循环前后对比</td></tr>
+          <tr><td class="pname">结构失效</td><td class="prange">颗粒破碎、脱层</td><td>截面SEM、厚度变化</td></tr>
+        </table>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l0-life" placeholder="寿命目标、主要失效模式假设..."></textarea></div>
+      </div>
+    </div>
+
+    <div class="card" id="c-safe">
+      <div class="card-hd" onclick="tog('c-safe')">
+        <div class="card-title"><div class="card-icon">🛡️</div>安全性</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="link-row"><div class="lk-from">Over Hang</div><div class="lk-arr">→</div><div class="lk-to">负极覆盖正极防析锂，OH设计直接影响边缘安全裕度</div></div>
+        <div class="link-row"><div class="lk-from">N/P 比</div><div class="lk-arr">→</div><div class="lk-to">N/P &lt; 1.0 时负极满充可能析锂，通常设计 1.05~1.15</div></div>
+        <div class="link-row"><div class="lk-from">陶瓷边设计</div><div class="lk-arr">→</div><div class="lk-to">防止边缘短路，涂布宽度与接缝密度是关键控制参数</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l0-safe" placeholder="安全测试要求、边界条件..."></textarea></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ L1 MICRO ══ -->
+<div class="panel" id="p-l1micro">
+  <div class="sec-hd">
+    <span class="sec-badge" style="background:#e8f0fb;color:#1a3f6a;border:1px solid #9bbde0">L1 · 微观结构</span>
+    <div><h2>微观结构参数</h2><div class="desc">孔隙率 · 压实密度 · 曲折度 · 膜片电阻</div></div>
+  </div>
+  <div class="card-grid">
+
+    <div class="card open" id="c-poros">
+      <div class="card-hd" onclick="tog('c-poros')">
+        <div class="card-title"><div class="card-icon">🕳️</div>孔隙率 ε</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="formula">
+          ε = 1 − ρ_electrode / ρ_theoretical<br>
+          D_eff = D₀ · ε / τ<br>
+          <span class="cmt">// D₀: 电解液本体扩散系数；τ: 曲折度（典型值 1.5~4）</span>
+        </div>
+        <table class="ptable">
+          <tr><th>电极类型</th><th>设计窗口</th><th>优化方向</th></tr>
+          <tr><td>正极 NCM/NCA</td><td class="prange">25~35%</td><td>高能量取下限；高功率取上限</td></tr>
+          <tr><td>正极 LFP</td><td class="prange">30~40%</td><td>LFP离子扩散慢，需更高孔隙率</td></tr>
+          <tr><td>负极 石墨</td><td class="prange">20~32%</td><td>过低易析锂；过高浪费体积</td></tr>
+          <tr><td>负极 硅碳</td><td class="prange">35~50%</td><td>需为膨胀预留空间</td></tr>
+        </table>
+        <div class="callout green"><span class="callout-icon">🔗</span><div><strong>制造关联：</strong>孔隙率由压延辊压参数决定。目标孔隙率 → 反推压实密度 → 确定辊缝设定值与线压力。</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l1-poros" placeholder="当前目标孔隙率、测量方法（压汞/氮气吸附/计算法）..."></textarea></div>
+      </div>
+    </div>
+
+    <div class="card" id="c-density">
+      <div class="card-hd" onclick="tog('c-density')">
+        <div class="card-title"><div class="card-icon">🧱</div>压实密度 ρ</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="formula">
+          ρ = m_coating / (A × t_coating)<br>
+          <span class="cmt">// 与孔隙率呈反比，两者不独立，需联合设计</span>
+        </div>
+        <table class="ptable">
+          <tr><th>材料</th><th>典型压实密度</th><th>上限约束</th></tr>
+          <tr><td>NCM622/811</td><td class="prange">3.3~3.6 g/cm³</td><td>颗粒破碎风险↑</td></tr>
+          <tr><td>LFP</td><td class="prange">2.2~2.5 g/cm³</td><td>导电剂网络断裂</td></tr>
+          <tr><td>石墨</td><td class="prange">1.55~1.65 g/cm³</td><td>层间应力开裂</td></tr>
+          <tr><td>硅碳</td><td class="prange">1.2~1.5 g/cm³</td><td>膨胀预留空间</td></tr>
+        </table>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l1-density" placeholder="目标压实密度、当前工艺能力 Cpk..."></textarea></div>
+      </div>
+    </div>
+
+    <div class="card" id="c-resist">
+      <div class="card-hd" onclick="tog('c-resist')">
+        <div class="card-title"><div class="card-icon">〰️</div>膜片电阻 / 内阻组成</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="callout orange"><span class="callout-icon">📐</span><div>全电池内阻 = 电子阻抗 + 离子阻抗 + 界面阻抗 + 接触阻抗</div></div>
+        <div class="link-row"><div class="lk-from">电子阻抗</div><div class="lk-arr">→</div><div class="lk-to">导电剂含量、分散均匀性、压实密度决定</div></div>
+        <div class="link-row"><div class="lk-from">离子阻抗</div><div class="lk-arr">→</div><div class="lk-to">孔隙率、曲折度、电解液浸润性决定（EIS Warburg区域）</div></div>
+        <div class="link-row"><div class="lk-from">界面阻抗</div><div class="lk-arr">→</div><div class="lk-to">SEI/CEI膜阻抗，EIS中频半圆，随循环增长</div></div>
+        <div class="link-row"><div class="lk-from">接触阻抗</div><div class="lk-arr">→</div><div class="lk-to">极耳焊接质量、集流体接触，制造工艺相关</div></div>
+        <div class="formula">
+          判定准则（全电池，室温，1C）:<br>
+          DCR_norm &lt; 2 mΩ·Ah  → 良好<br>
+          首圈 CE &gt; 99.5% (正极) → 达标
+        </div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l1-resist" placeholder="当前内阻水平、主要阻抗来源..."></textarea></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ L1 FORMULA ══ -->
+<div class="panel" id="p-l1formula">
+  <div class="sec-hd">
+    <span class="sec-badge" style="background:#e8f0fb;color:#1a3f6a;border:1px solid #9bbde0">L1 · 配方</span>
+    <div><h2>配方特征参数</h2><div class="desc">活性物质 · 导电剂 · 粘结剂 · 溶剂体系</div></div>
+  </div>
+  <div class="card-grid">
+    <div class="card" id="c-cat-recipe">
+      <div class="card-hd" onclick="tog('c-cat-recipe')">
+        <div class="card-title"><div class="card-icon">➕</div>正极配方设计</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <table class="ptable">
+          <tr><th>组分</th><th>典型比例</th><th>性能影响</th></tr>
+          <tr><td class="pname">活性物质 (AM)</td><td class="prange">94~97 wt%</td><td>↑能量密度；过高加工性变差</td></tr>
+          <tr><td class="pname">导电剂 (CB/CNT)</td><td class="prange">1~3 wt%</td><td>↑电子导电；过多占体积</td></tr>
+          <tr><td class="pname">粘结剂 (PVDF)</td><td class="prange">1~3 wt%</td><td>剥离强度；过少脱粉</td></tr>
+        </table>
+        <div class="link-row"><div class="lk-from">浆料粘度</div><div class="lk-arr">→</div><div class="lk-to">影响涂布均匀性，通常 3000~8000 mPa·s（刮刀涂布）</div></div>
+        <div class="link-row"><div class="lk-from">固含量</div><div class="lk-arr">→</div><div class="lk-to">影响干燥速率和涂层结构，过高易出现龟裂</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l1-cat-recipe" placeholder="当前配方比例、NMP用量、混料顺序..."></textarea></div>
+      </div>
+    </div>
+    <div class="card" id="c-ano-recipe">
+      <div class="card-hd" onclick="tog('c-ano-recipe')">
+        <div class="card-title"><div class="card-icon">➖</div>负极配方设计</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <table class="ptable">
+          <tr><th>组分</th><th>典型比例</th><th>备注</th></tr>
+          <tr><td class="pname">石墨 (AM)</td><td class="prange">95~97 wt%</td><td>水系浆料，成本低</td></tr>
+          <tr><td class="pname">导电剂</td><td class="prange">0.5~1.5 wt%</td><td>石墨本身导电性尚可</td></tr>
+          <tr><td class="pname">CMC（增稠剂）</td><td class="prange">1~1.5 wt%</td><td>控制流变，影响涂布质量</td></tr>
+          <tr><td class="pname">SBR（粘结剂）</td><td class="prange">1~2 wt%</td><td>提供柔韧性，循环中维持结构</td></tr>
+        </table>
+        <div class="callout green"><span class="callout-icon">⚗️</span><div>水系浆料 pH 控制（7~9）对铜箔腐蚀和浆料稳定性有重要影响，需实时监控。</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l1-ano-recipe" placeholder="硅碳掺杂比例、CMC/SBR优化..."></textarea></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ L1 DIM ══ -->
+<div class="panel" id="p-l1dim">
+  <div class="sec-hd">
+    <span class="sec-badge" style="background:#e8f0fb;color:#1a3f6a;border:1px solid #9bbde0">L1 · 尺寸链</span>
+    <div><h2>尺寸链与公差设计</h2><div class="desc">Mean值 · RSS公差叠加 · Cpk要求 · N/P比 · Over Hang</div></div>
+  </div>
+  <div class="card-grid">
+
+    <div class="card open" id="c-dimchain">
+      <div class="card-hd" onclick="tog('c-dimchain')">
+        <div class="card-title"><div class="card-icon">📐</div>叠芯厚度尺寸链</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="formula">
+          T_cell = N × (t_正极 + t_隔膜 + t_负极) + t_包装<br><br>
+          t_极片 = t_箔材 + t_正面涂层 + t_背面涂层<br>
+          t_涂层 = f(涂布量, 压实密度)<br><br>
+          <span class="cmt">// RSS 统计公差叠加（优于最差情况法）：</span><br>
+          σ_total = √(Σ σᵢ²)<br>
+          T_total = ±3σ_total  →  99.73% 置信区间
+        </div>
+        <table class="ptable">
+          <tr><th>误差来源</th><th>典型公差 (±μm)</th><th>控制手段</th></tr>
+          <tr><td>涂布均匀性</td><td class="prange">±2~5</td><td>张力控制、浆料粘度稳定</td></tr>
+          <tr><td>压延回弹</td><td class="prange">±1~3</td><td>辊压速度、温度、材料回弹系数</td></tr>
+          <tr><td>隔膜厚度</td><td class="prange">±1~2</td><td>来料检验规格</td></tr>
+          <tr><td>铝/铜箔</td><td class="prange">±1~2</td><td>供应商 Cpk 要求 ≥ 1.33</td></tr>
+        </table>
+        <div class="callout orange"><span class="callout-icon">📌</span><div><strong>公差分配原则：</strong>按工艺能力（Cpk ≥ 1.33）反推允许公差，而非均摊。能力强的工序承担更紧的公差。</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l1-dimchain" placeholder="叠层数N、厚度目标、主要公差来源..."></textarea></div>
+      </div>
+    </div>
+
+    <div class="card" id="c-oh">
+      <div class="card-hd" onclick="tog('c-oh')">
+        <div class="card-title"><div class="card-icon">📏</div>Over Hang 设计</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="callout red"><span class="callout-icon">⚠️</span><div><strong>Over Hang (OH)</strong> = 负极尺寸超出正极的单侧距离，是防析锂的核心安全参数。</div></div>
+        <div class="formula">
+          OH = (W_负极 − W_正极) / 2<br><br>
+          OH_min = f(极片对齐公差 + 膨胀量 + 安全裕度)<br>
+          OH_max ← 受能量密度损失限制<br>
+          <span class="cmt">// 典型设计范围：0.5~2.0 mm（液态电池）</span>
+        </div>
+        <div class="link-row"><div class="lk-from">AC / SA OH</div><div class="lk-arr">→</div><div class="lk-to">顶边(AC)通常 > 侧边(SA)，顶部为析锂高风险区</div></div>
+        <div class="link-row"><div class="lk-from">OH 公差</div><div class="lk-arr">→</div><div class="lk-to">由极片裁切精度 + 叠片对齐精度叠加决定（纳入尺寸链）</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l1-oh" placeholder="当前OH设计值、对齐精度要求、循环后OH变化..."></textarea></div>
+      </div>
+    </div>
+
+    <div class="card" id="c-np">
+      <div class="card-hd" onclick="tog('c-np')">
+        <div class="card-title"><div class="card-icon">⚖️</div>N/P 比设计</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="formula">
+          N/P = Q_负极面容量 / Q_正极面容量<br>
+          Q = 涂布量(mg/cm²) × AM比例 × 克容量(mAh/g)<br><br>
+          <span class="cmt">// 设计目标（液态锂离子）：</span><br>
+          1.05 ≤ N/P ≤ 1.15<br>
+          N/P &lt; 1.0  → 析锂风险<br>
+          N/P &gt; 1.2  → 能量密度损失 + 首圈 CE 影响
+        </div>
+        <div class="callout green"><span class="callout-icon">🔗</span><div>N/P比是连接正负极设计的核心纽带，需同时考虑<strong>面容量匹配</strong>与<strong>首效不可逆容量补偿</strong>。</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l1-np" placeholder="当前N/P比、首效补偿方案（预锂化等）..."></textarea></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ L2 SLURRY ══ -->
+<div class="panel" id="p-l2slurry">
+  <div class="sec-hd">
+    <span class="sec-badge" style="background:#e6f5ee;color:#1a5a3a;border:1px solid #8ecaaa">L2 · 浆料</span>
+    <div><h2>浆料制备</h2><div class="desc">混料工艺 → 浆料特征 → 涂布质量</div></div>
+  </div>
+  <div class="card-grid">
+    <div class="card" id="c-slurry">
+      <div class="card-hd" onclick="tog('c-slurry')">
+        <div class="card-title"><div class="card-icon">🧪</div>浆料关键参数</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <table class="ptable">
+          <tr><th>参数</th><th>典型范围</th><th>影响</th></tr>
+          <tr><td class="pname">粘度</td><td class="prange">3000~8000 mPa·s</td><td>涂布均匀性、边缘形貌</td></tr>
+          <tr><td class="pname">固含量</td><td class="prange">55~70 wt%</td><td>干燥速率、涂层致密性</td></tr>
+          <tr><td class="pname">细度</td><td class="prange">&lt;15 μm</td><td>表面质量、团聚程度</td></tr>
+          <tr><td class="pname">稳定性</td><td class="prange">沉降率&lt;5%/24h</td><td>长时间涂布一致性</td></tr>
+        </table>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l2-slurry" placeholder="混料顺序、分散时间、双行星混料机参数..."></textarea></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ L2 COATING ══ -->
+<div class="panel" id="p-l2coating">
+  <div class="sec-hd">
+    <span class="sec-badge" style="background:#e6f5ee;color:#1a5a3a;border:1px solid #8ecaaa">L2 · 涂布/压延</span>
+    <div><h2>涂布 · 干燥 · 压延 · 模切</h2><div class="desc">工艺参数 → 极片物理特征 → 电化学性能</div></div>
+  </div>
+  <div class="card-grid">
+    <div class="card" id="c-coating">
+      <div class="card-hd" onclick="tog('c-coating')">
+        <div class="card-title"><div class="card-icon">🖨️</div>涂布工艺关联</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="flow">
+          <div class="flow-node">浆料粘度/固含</div><div class="flow-arr">→</div>
+          <div class="flow-node">涂布重量均匀性</div><div class="flow-arr">→</div>
+          <div class="flow-node">容量一致性</div>
+        </div>
+        <div class="flow">
+          <div class="flow-node">干燥温度/速率</div><div class="flow-arr">→</div>
+          <div class="flow-node">PVDF迁移</div><div class="flow-arr">→</div>
+          <div class="flow-node">剥离强度↓</div>
+        </div>
+        <div class="link-row"><div class="lk-from">涂布重量</div><div class="lk-arr">→</div><div class="lk-to">直接决定极片面容量，是N/P比计算的输入量，需控制在±0.5 mg/cm²以内</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l2-coating" placeholder="涂布速度、张力控制、均匀性水平..."></textarea></div>
+      </div>
+    </div>
+    <div class="card" id="c-rolling">
+      <div class="card-hd" onclick="tog('c-rolling')">
+        <div class="card-title"><div class="card-icon">🔩</div>压延工艺关联</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="formula">
+          压实密度 = 涂布重量 / (面积 × 压延后涂层厚度)<br>
+          孔隙率 = 1 − 压实密度 / 理论密度<br>
+          <span class="cmt">// 辊缝设定 → 目标厚度 → 目标压实密度 → 目标孔隙率</span>
+        </div>
+        <div class="link-row"><div class="lk-from">辊压线压力</div><div class="lk-arr">→</div><div class="lk-to">决定最终压实密度，过高导致颗粒破碎（NCM高镍尤敏感）</div></div>
+        <div class="link-row"><div class="lk-from">压延回弹</div><div class="lk-arr">→</div><div class="lk-to">弹性回弹量是厚度公差的主要来源之一，需实测修正辊缝</div></div>
+        <div class="link-row"><div class="lk-from">波浪边</div><div class="lk-arr">→</div><div class="lk-to">压延不均导致，影响叠片对齐精度和OH均匀性</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l2-rolling" placeholder="目标压实密度、辊压参数、回弹测量值..."></textarea></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ L2 GRADIENT ══ -->
+<div class="panel" id="p-l2gradient">
+  <div class="sec-hd">
+    <span class="sec-badge" style="background:#e6f5ee;color:#1a5a3a;border:1px solid #8ecaaa">L2 · 梯度涂布</span>
+    <div><h2>梯度 / 多层涂布设计</h2><div class="desc">孔隙率梯度 · 动力学优化 · 厚电极设计</div></div>
+  </div>
+  <div class="card-grid full">
+    <div class="card open" id="c-gradient">
+      <div class="card-hd" onclick="tog('c-gradient')">
+        <div class="card-title"><div class="card-icon">📊</div>梯度孔隙率设计原理</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="bimap">
+          <div class="bimap-col">
+            <h4>底层（靠近集流体）</h4>
+            <div class="bimap-item">低孔隙率 20~25%</div>
+            <div class="bimap-item">✅ 高压实密度</div>
+            <div class="bimap-item">✅ 强电子导电网络</div>
+            <div class="bimap-item">✅ 与集流体结合强</div>
+            <div class="bimap-item">⚠️ 离子传输受限</div>
+          </div>
+          <div class="bimap-mid">↕<span>梯度</span></div>
+          <div class="bimap-col">
+            <h4>顶层（靠近隔膜）</h4>
+            <div class="bimap-item">高孔隙率 35~45%</div>
+            <div class="bimap-item">✅ Li⁺快速进入</div>
+            <div class="bimap-item">✅ 电解液充分浸润</div>
+            <div class="bimap-item">✅ 低倍率极化</div>
+            <div class="bimap-item">⚠️ 体积能量密度稍低</div>
+          </div>
+        </div>
+        <div class="callout green"><span class="callout-icon">📈</span><div><strong>设计收益：</strong>相比均匀孔隙率电极，梯度设计可在相同能量密度下提升约 15~30% 倍率性能。电极厚度 &gt;100 μm 时效果更显著。</div></div>
+        <table class="ptable">
+          <tr><th>层数</th><th>设计参数</th><th>L3测试验证方法</th></tr>
+          <tr><td>双层</td><td>底/顶层孔隙率比 = 0.6~0.75</td><td>GITT扩散系数 vs. SOC 曲线验证</td></tr>
+          <tr><td>三层+</td><td>线性或抛物线梯度</td><td>EIS频率扫描区分各层阻抗贡献</td></tr>
+          <tr><td>成分梯度</td><td>底层高导电剂，顶层高AM</td><td>截面SEM + EDS元素分布</td></tr>
+        </table>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l2-gradient" placeholder="层数设计、各层孔隙率目标、制备工艺（共挤/分次涂布）..."></textarea></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ L3 BASIC ══ -->
+<div class="panel" id="p-l3basic">
+  <div class="sec-hd">
+    <span class="sec-badge" style="background:#fbe8e8;color:#6a1a1a;border:1px solid #e0a0a0">L3 · 基础测试</span>
+    <div><h2>基础电化学测试</h2><div class="desc">GCPL · 倍率 · 库仑效率 · 循环稳定性</div></div>
+  </div>
+  <div class="card-grid">
+    <div class="card open" id="c-gcpl">
+      <div class="card-hd" onclick="tog('c-gcpl')">
+        <div class="card-title"><div class="card-icon">📈</div>恒流充放电 (GCPL)</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="method-blk">
+          <div class="method-blk-title"><span class="mabbr">GCPL</span> 标准测试规范</div>
+          <div class="mgrid">
+            <div class="mkey">化成协议</div><div class="mval">0.05C → 0.1C → 0.2C 各1~2圈</div>
+            <div class="mkey">定容条件</div><div class="mval">0.1C 或 0.2C，CC-CV，截止电流 0.05C</div>
+            <div class="mkey">关键输出</div><div class="mval">首圈CE、可逆容量、平台电压、极化量</div>
+            <div class="mkey">全电池注意</div><div class="mval">容量以限容端（通常正极）计算</div>
+          </div>
+        </div>
+        <div class="formula">
+          CE = Q_放电 / Q_充电 × 100%<br>
+          极化 ΔV = V_充电平台 − V_放电平台<br>
+          <span class="cmt">// ΔV &gt; 200mV @ 0.1C → 动力学问题，需查 EIS</span>
+        </div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l3-gcpl" placeholder="当前测试协议、首效目标、异常平台记录..."></textarea></div>
+      </div>
+    </div>
+    <div class="card" id="c-rate">
+      <div class="card-hd" onclick="tog('c-rate')">
+        <div class="card-title"><div class="card-icon">⚡</div>倍率性能测试</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="method-blk">
+          <div class="mgrid">
+            <div class="mkey">测试序列</div><div class="mval">0.1C → 0.2C → 0.5C → 1C → 2C → 5C → 回0.1C</div>
+            <div class="mkey">判定标准</div><div class="mval">5C/0.1C 容量保持率 &gt; 80% → 良好倍率</div>
+            <div class="mkey">L1关联</div><div class="mval">倍率衰退 → 检查孔隙率、曲折度（用GITT验证D_Li）</div>
+          </div>
+        </div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l3-rate" placeholder="目标倍率范围、当前瓶颈..."></textarea></div>
+      </div>
+    </div>
+    <div class="card" id="c-cycle">
+      <div class="card-hd" onclick="tog('c-cycle')">
+        <div class="card-title"><div class="card-icon">🔄</div>循环稳定性</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="method-blk">
+          <div class="mgrid">
+            <div class="mkey">标准条件</div><div class="mval">1C/1C 充放，室温</div>
+            <div class="mkey">参比圈</div><div class="mval">每50圈插入一次0.1C，剥离动力学与热力学劣化</div>
+            <div class="mkey">诊断节点</div><div class="mval">每50~100圈做EIS + dQ/dV，追踪失效演化</div>
+          </div>
+        </div>
+        <div class="callout blue"><span class="callout-icon">💡</span><div>插入参比圈是区分「动力学劣化」与「热力学容量损失」的关键操作，不可省略。</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l3-cycle" placeholder="寿命目标、当前衰退速率..."></textarea></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ L3 KINETICS ══ -->
+<div class="panel" id="p-l3kinetics">
+  <div class="sec-hd">
+    <span class="sec-badge" style="background:#fbe8e8;color:#6a1a1a;border:1px solid #e0a0a0">L3 · 动力学</span>
+    <div><h2>EIS · GITT 动力学表征</h2><div class="desc">阻抗分解 · 扩散系数 · 界面演化 · 活化能</div></div>
+  </div>
+  <div class="card-grid full">
+    <div class="card open" id="c-eis">
+      <div class="card-hd" onclick="tog('c-eis')">
+        <div class="card-title"><div class="card-icon">〰️</div>电化学阻抗谱 (EIS)</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="method-blk">
+          <div class="method-blk-title"><span class="mabbr">EIS</span> 测试规范</div>
+          <div class="mgrid">
+            <div class="mkey">频率范围</div><div class="mval">100 kHz ~ 10 mHz（宽频）；界面分析选 1 Hz~10 mHz</div>
+            <div class="mkey">扰动幅值</div><div class="mval">5~10 mV（保持线性响应）</div>
+            <div class="mkey">测试前处理</div><div class="mval">静置 OCV ≥ 2h；推荐多SOC点（0%, 50%, 100%）</div>
+            <div class="mkey">温度依赖</div><div class="mval">−20°C, 0°C, 25°C, 45°C 对比，提取活化能 Eₐ</div>
+          </div>
+        </div>
+        <table class="ptable">
+          <tr><th>Nyquist 区域</th><th>对应物理过程</th><th>关联 L1 参数</th></tr>
+          <tr><td class="pname">高频截距 Rₑ</td><td>欧姆内阻（电解液+极耳+集流体）</td><td>电解液电导率、极耳设计</td></tr>
+          <tr><td class="pname">高频半圆</td><td>SEI / CEI 膜阻抗 R_SEI</td><td>界面膜厚度、化成工艺</td></tr>
+          <tr><td class="pname">中频半圆</td><td>电荷转移阻抗 R_ct</td><td>活性材料表面积、孔隙率</td></tr>
+          <tr><td class="pname">低频斜线</td><td>Warburg 固相扩散</td><td>Li⁺在活性材料中的扩散</td></tr>
+          <tr><td class="pname">低频尾/圆</td><td>固态扩散积累</td><td>厚电极、梯度结构敏感</td></tr>
+        </table>
+        <div class="formula">
+          等效电路（典型）:<br>
+          R_ohm + (R_SEI // CPE_SEI) + (R_ct // CPE_dl) + W<br>
+          <span class="cmt">// CPE: 常相位元件（非理想电容）；W: Warburg扩散元件</span><br>
+          <span class="cmt">// 循环诊断：ΔR_SEI / ΔR_ct 比值变化 → 判断主导失效机制</span>
+        </div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l3-eis" placeholder="当前拟合结果、主要阻抗贡献、循环前后对比..."></textarea></div>
+      </div>
+    </div>
+
+    <div class="card" id="c-gitt">
+      <div class="card-hd" onclick="tog('c-gitt')">
+        <div class="card-title"><div class="card-icon">📡</div>间歇滴定技术 (GITT)</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="method-blk">
+          <div class="method-blk-title"><span class="mabbr">GITT</span> 测试规范</div>
+          <div class="mgrid">
+            <div class="mkey">脉冲条件</div><div class="mval">0.05~0.1C，持续 10~30 min</div>
+            <div class="mkey">弛豫时间</div><div class="mval">30~120 min（直至 dV/dt &lt; 0.1 mV/min）</div>
+            <div class="mkey">SOC分辨率</div><div class="mval">每步 5% SOC，覆盖 0~100%</div>
+          </div>
+        </div>
+        <div class="formula">
+          D_Li⁺ = (4/π) × (m_B · V_m / M_B / A)² × (ΔE_s / ΔE_t)²<br>
+          <span class="cmt">// ΔE_s: 稳态电压变化；ΔE_t: 脉冲期间电压变化</span><br>
+          <span class="cmt">// 适用条件：短脉冲内满足 √t 线性关系</span>
+        </div>
+        <div class="callout green"><span class="callout-icon">🔗</span><div><strong>与梯度设计联动：</strong>梯度电极中不同SOC下的D_Li⁺曲线形状与均匀电极有差异，可用于验证梯度设计的实际动力学效果。</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l3-gitt" placeholder="D值范围、SOC依赖性、与EIS结果对比..."></textarea></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ L3 DQDV ══ -->
+<div class="panel" id="p-l3dqdv">
+  <div class="sec-hd">
+    <span class="sec-badge" style="background:#fbe8e8;color:#6a1a1a;border:1px solid #e0a0a0">L3 · 增量分析</span>
+    <div><h2>dQ/dV · 增量容量分析 (ICA)</h2><div class="desc">相变追踪 · 容量衰退归因 · 无损全电池诊断</div></div>
+  </div>
+  <div class="card-grid full">
+    <div class="card open" id="c-dqdv">
+      <div class="card-hd" onclick="tog('c-dqdv')">
+        <div class="card-title"><div class="card-icon">📉</div>dQ/dV 增量容量分析</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="method-blk">
+          <div class="method-blk-title"><span class="mabbr">ICA</span> 测试规范</div>
+          <div class="mgrid">
+            <div class="mkey">充放电倍率</div><div class="mval">≤ 0.05C（准静态）获得清晰峰形；0.1C 为工程折中</div>
+            <div class="mkey">数据采样</div><div class="mval">间隔 ≤ 1 mV 或 ≤ 10 s，过稀则峰形失真</div>
+            <div class="mkey">平滑处理</div><div class="mval">Savitzky-Golay 滤波（窗口 15~25点），保留峰位精度</div>
+          </div>
+        </div>
+        <table class="ptable">
+          <tr><th>峰变化特征</th><th>物理含义</th><th>关联失效模式</th></tr>
+          <tr><td class="pname">峰面积减小</td><td>对应相变容量损失</td><td>活性物质损失 (LAM)</td></tr>
+          <tr><td class="pname">峰位左移（放电）</td><td>极化增大</td><td>阻抗增长、动力学劣化</td></tr>
+          <tr><td class="pname">正负极峰错位</td><td>容量不匹配</td><td>活性锂损失 (LLI)</td></tr>
+          <tr><td class="pname">峰展宽</td><td>电化学不均匀性</td><td>局部SOC分布不均</td></tr>
+          <tr><td class="pname">新峰出现</td><td>新相生成</td><td>过放深放、副反应</td></tr>
+        </table>
+        <div class="formula">
+          dQ/dV = dQ/dt ÷ dV/dt<br><br>
+          <span class="cmt">// NCM正极 + 石墨负极 全电池峰识别：</span><br>
+          ~3.45V 峰 → 石墨 Stage III→II 相变<br>
+          ~3.60V 峰 → 石墨 Stage II→I 相变<br>
+          ~3.95~4.1V 区域 → NCM 有序-无序相变<br>
+          <span class="cmt">// 峰位随循环移动量 → 量化极化增长速率</span>
+        </div>
+        <div class="callout orange"><span class="callout-icon">🎯</span><div><strong>全电池无损诊断核心：</strong>全电池dQ/dV是正负极特征峰叠加结果。通过解卷积（结合半电池参考数据）可单独分析正极或负极衰退贡献。</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l3-dqdv" placeholder="当前关注的峰特征、循环前后峰位移动量、归因假设..."></textarea></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ L3 FULLCELL ══ -->
+<div class="panel" id="p-l3fullcell">
+  <div class="sec-hd">
+    <span class="sec-badge" style="background:#fbe8e8;color:#6a1a1a;border:1px solid #e0a0a0">L3 · 全电池</span>
+    <div><h2>全电池专项评估</h2><div class="desc">化成协议 · N/P验证 · 析锂判断 · 温度工况</div></div>
+  </div>
+  <div class="card-grid">
+    <div class="card open" id="c-formation">
+      <div class="card-hd" onclick="tog('c-formation')">
+        <div class="card-title"><div class="card-icon">🔋</div>化成与定容</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="method-blk">
+          <div class="mgrid">
+            <div class="mkey">典型化成协议</div><div class="mval">0.05C CC → 0.1C CC → 0.2C CC充放，各1~2圈</div>
+            <div class="mkey">目的</div><div class="mval">建立稳定SEI层，消耗不可逆容量，活化电极</div>
+            <div class="mkey">关键输出</div><div class="mval">首圈不可逆容量 → 反馈N/P设计合理性</div>
+            <div class="mkey">化成温度</div><div class="mval">25~45°C，影响SEI组成和致密性</div>
+          </div>
+        </div>
+        <div class="callout blue"><span class="callout-icon">🔗</span><div>化成圈的CE数据是验证<strong>N/P比设计合理性</strong>的第一个实验节点，首效偏低需检查负极首效补偿方案。</div></div>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l3-formation" placeholder="当前化成协议、首圈CE结果..."></textarea></div>
+      </div>
+    </div>
+    <div class="card" id="c-plating">
+      <div class="card-hd" onclick="tog('c-plating')">
+        <div class="card-title"><div class="card-icon">⚠️</div>析锂检测与判断</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <div class="callout red"><span class="callout-icon">🚨</span><div>析锂是全电池最重要的安全与寿命风险。N/P比、Over Hang、充电倍率、低温为主要诱因。</div></div>
+        <table class="ptable">
+          <tr><th>检测方法</th><th>类型</th><th>说明</th></tr>
+          <tr><td class="pname">dQ/dV 负极平台</td><td><span class="tag tag-up">无损</span></td><td>充电末段出现锂溶解平台（~0V vs Li）</td></tr>
+          <tr><td class="pname">弛豫电压特征</td><td><span class="tag tag-up">无损</span></td><td>充电后静置，析锂溶解引起电压缓慢上升</td></tr>
+          <tr><td class="pname">拆解目视/SEM</td><td><span class="tag tag-org">破坏性</span></td><td>负极表面银白色锂沉积</td></tr>
+          <tr><td class="pname">中子衍射</td><td><span class="tag tag-neu">高精度</span></td><td>原位检测，科研级方法</td></tr>
+        </table>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l3-plating" placeholder="当前析锂检测方案、触发条件、改善措施..."></textarea></div>
+      </div>
+    </div>
+    <div class="card" id="c-temp">
+      <div class="card-hd" onclick="tog('c-temp')">
+        <div class="card-title"><div class="card-icon">🌡️</div>温度工况测试</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <table class="ptable">
+          <tr><th>测试项</th><th>条件</th><th>关联参数</th></tr>
+          <tr><td class="pname">低温性能</td><td>−20°C, −10°C 放电</td><td>孔隙率、电解液配方、SEI组成</td></tr>
+          <tr><td class="pname">高温循环</td><td>45°C, 60°C 循环</td><td>SEI/CEI稳定性、粘结剂耐温性</td></tr>
+          <tr><td class="pname">温度阻抗</td><td>EIS @ 多温度</td><td>活化能 Eₐ（Arrhenius 拟合）</td></tr>
+        </table>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l3-temp" placeholder="关注温度范围、低温容量保持率目标..."></textarea></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ L3 FAILURE ══ -->
+<div class="panel" id="p-l3failure">
+  <div class="sec-hd">
+    <span class="sec-badge" style="background:#fbe8e8;color:#6a1a1a;border:1px solid #e0a0a0">L3 · 失效诊断</span>
+    <div><h2>失效诊断体系</h2><div class="desc">失效模式 → 表征路径 → 根因定位 → 设计反馈</div></div>
+  </div>
+  <div class="card-grid full">
+    <div class="card open" id="c-failure">
+      <div class="card-hd" onclick="tog('c-failure')">
+        <div class="card-title"><div class="card-icon">🗺️</div>失效模式映射树</div>
+        <div class="card-arrow">▶</div>
+      </div>
+      <div class="card-body">
+        <table class="ptable">
+          <tr><th>现象</th><th>失效模式</th><th>诊断方法</th><th>关联L1参数</th></tr>
+          <tr>
+            <td class="pname">容量快速衰退</td>
+            <td>活性锂损失 LLI<br>活性材料损失 LAM</td>
+            <td>dQ/dV峰面积/位置<br>0.1C参比圈追踪</td>
+            <td>N/P比、首效<br>压实密度过高</td>
+          </tr>
+          <tr>
+            <td class="pname">内阻持续增长</td>
+            <td>SEI膜增厚<br>接触失效</td>
+            <td>EIS分解 R_SEI/R_ct<br>截面SEM</td>
+            <td>化成工艺<br>极耳焊接质量</td>
+          </tr>
+          <tr>
+            <td class="pname">倍率突然下降</td>
+            <td>孔隙堵塞<br>电解液耗尽</td>
+            <td>GITT扩散系数突变<br>EIS Warburg变化</td>
+            <td>孔隙率设计<br>电解液注液量</td>
+          </tr>
+          <tr>
+            <td class="pname">循环膨胀</td>
+            <td>气体产生<br>硅负极膨胀</td>
+            <td>厚度测量<br>拆解气体分析</td>
+            <td>硅含量<br>孔隙率预留</td>
+          </tr>
+          <tr>
+            <td class="pname">自放电异常</td>
+            <td>微短路<br>金属杂质</td>
+            <td>静置OCV追踪<br>漏电流测试</td>
+            <td>极片毛刺控制<br>金属屑防控</td>
+          </tr>
+        </table>
+        <div class="note-wrap"><div class="note-label">📝 笔记</div><textarea class="note-input" data-key="l3-failure" placeholder="当前主要失效现象、已排查路径、待验证假设..."></textarea></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAPPING ══ -->
+<div class="panel" id="p-mapping">
+  <div class="sec-hd">
+    <span class="sec-badge" style="background:#f0ebe3;color:#5a4a3a;border:1px solid #c8bfb0">联动映射</span>
+    <div><h2>参数 ↔ 性能 双向映射总表</h2><div class="desc">设计参数 → 性能影响 · 性能目标 → 反推设计窗口</div></div>
+  </div>
+  <div style="overflow-x:auto;">
+    <table class="map-table">
+      <tr>
+        <th>L1 参数</th>
+        <th>↑ 增大时</th>
+        <th>↓ 减小时</th>
+        <th>最优设计窗口</th>
+        <th>主要测试验证</th>
+      </tr>
+      <tr>
+        <td class="pname">孔隙率 ε</td>
+        <td><span class="tag tag-up">倍率↑</span><span class="tag tag-up">浸润↑</span><span class="tag tag-dn">能量密度↓</span></td>
+        <td><span class="tag tag-up">能量密度↑</span><span class="tag tag-dn">倍率↓</span><span class="tag tag-dn">析锂风险↑</span></td>
+        <td class="prange">正极 25~35%<br>负极 20~32%</td>
+        <td>GITT · EIS(W) · 倍率测试</td>
+      </tr>
+      <tr>
+        <td class="pname">压实密度 ρ</td>
+        <td><span class="tag tag-up">体积能量↑</span><span class="tag tag-dn">孔隙率↓</span><span class="tag tag-dn">破碎风险↑</span></td>
+        <td><span class="tag tag-up">孔隙率↑</span><span class="tag tag-dn">体积能量↓</span></td>
+        <td class="prange">NCM: 3.3~3.6<br>石墨: 1.55~1.65</td>
+        <td>SEM截面 · 压汞法 · 循环</td>
+      </tr>
+      <tr>
+        <td class="pname">N/P 比</td>
+        <td><span class="tag tag-up">安全裕度↑</span><span class="tag tag-dn">能量密度↓</span></td>
+        <td><span class="tag tag-up">能量密度↑</span><span class="tag tag-dn">析锂风险↑</span></td>
+        <td class="prange">1.05 ~ 1.15</td>
+        <td>化成CE · dQ/dV · 弛豫电压</td>
+      </tr>
+      <tr>
+        <td class="pname">涂布量</td>
+        <td><span class="tag tag-up">面容量↑</span><span class="tag tag-dn">倍率↓</span><span class="tag tag-dn">扩散路径↑</span></td>
+        <td><span class="tag tag-up">倍率↑</span><span class="tag tag-dn">面容量↓</span></td>
+        <td class="prange">按能量密度目标设计</td>
+        <td>GCPL容量 · GITT · 倍率</td>
+      </tr>
+      <tr>
+        <td class="pname">Over Hang</td>
+        <td><span class="tag tag-up">析锂防护↑</span><span class="tag tag-dn">能量密度↓</span></td>
+        <td><span class="tag tag-up">能量密度↑</span><span class="tag tag-dn">边缘析锂↑</span></td>
+        <td class="prange">0.5 ~ 2.0 mm</td>
+        <td>拆解检测 · dQ/dV弛豫</td>
+      </tr>
+      <tr>
+        <td class="pname">导电剂含量</td>
+        <td><span class="tag tag-up">电子导电↑</span><span class="tag tag-dn">能量密度↓</span></td>
+        <td><span class="tag tag-up">能量密度↑</span><span class="tag tag-dn">高倍率极化↑</span></td>
+        <td class="prange">正极 1~3%<br>负极 0.5~1.5%</td>
+        <td>EIS(R_ct) · 膜片电阻</td>
+      </tr>
+      <tr>
+        <td class="pname">曲折度 τ</td>
+        <td><span class="tag tag-dn">D_eff↓</span><span class="tag tag-dn">倍率↓</span></td>
+        <td><span class="tag tag-up">D_eff↑</span><span class="tag tag-up">倍率↑</span></td>
+        <td class="prange">目标 τ &lt; 3</td>
+        <td>EIS Warburg · GITT · μ-CT</td>
+      </tr>
+    </table>
+  </div>
+  <div class="note-wrap" style="margin-top:20px;">
+    <div class="note-label">📝 体系补充笔记</div>
+    <textarea class="note-input" data-key="mapping-notes" style="min-height:100px;" placeholder="尚未覆盖的参数、特殊材料体系差异、待补充的测试方法..."></textarea>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- IMPORT AREA -->
+<textarea id="import-area" style="display:none;"></textarea>
+
+<script>
+// ── NAVIGATION ──
+function go(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const panel = document.getElementById('p-' + id);
+  if (panel) panel.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick') === `go('${id}')`) n.classList.add('active');
+  });
+  document.querySelector('.main').scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── CARD TOGGLE ──
+function tog(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ── SAVE / LOAD NOTES (localStorage) ──
+const STORAGE_KEY = 'electrode_notes_v2';
+
+function getAllNotes() {
+  const notes = {};
+  document.querySelectorAll('.note-input[data-key]').forEach(el => {
+    notes[el.dataset.key] = el.value;
+  });
+  return notes;
+}
+
+function loadNotes() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    const notes = JSON.parse(saved);
+    document.querySelectorAll('.note-input[data-key]').forEach(el => {
+      if (notes[el.dataset.key] !== undefined) {
+        el.value = notes[el.dataset.key];
+      }
+    });
+  } catch(e) { console.warn('笔记加载失败', e); }
+}
+
+function saveAllNotes() {
+  try {
+    const notes = getAllNotes();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+    const btn = document.getElementById('saveBtn');
+    btn.textContent = '✅ 已保存';
+    btn.classList.add('saved');
+    setTimeout(() => {
+      btn.textContent = '💾 保存所有笔记';
+      btn.classList.remove('saved');
+    }, 2000);
+  } catch(e) {
+    alert('保存失败，请检查浏览器是否允许 localStorage（隐私模式下不可用）。');
+  }
+}
+
+// Auto-save on typing (debounce 1.5s)
+let saveTimer;
+document.addEventListener('input', e => {
+  if (e.target.classList.contains('note-input')) {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveAllNotes, 1500);
+  }
+});
+
+// ── EXPORT / IMPORT ──
+function exportNotes() {
+  const notes = getAllNotes();
+  const json = JSON.stringify(notes, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'electrode_notes_' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importNotes() {
+  const area = document.getElementById('import-area');
+  if (area.style.display === 'none') {
+    area.style.display = 'block';
+    area.style.marginTop = '12px';
+    area.style.minHeight = '80px';
+    area.style.width = '100%';
+    area.className = 'note-input';
+    area.placeholder = '粘贴笔记 JSON 后点此按钮完成导入...';
+    area.focus();
+  } else {
+    try {
+      const notes = JSON.parse(area.value);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+      loadNotes();
+      area.style.display = 'none';
+      alert('✅ 导入成功！');
+    } catch(e) {
+      alert('❌ JSON 格式有误，请检查后重试。');
+    }
+  }
+}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', loadNotes);
+</script>
+</body>
+</html>
